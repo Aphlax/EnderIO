@@ -25,6 +25,7 @@ import crazypants.enderio.conduit.facade.ItemConduitFacade;
 import crazypants.enderio.conduit.item.ItemExtractSpeedUpgrade;
 import crazypants.enderio.conduit.item.ItemFunctionUpgrade;
 import crazypants.enderio.conduit.item.ItemItemConduit;
+import crazypants.enderio.conduit.item.ItemProcessingPlan;
 import crazypants.enderio.conduit.item.filter.ItemBasicItemFilter;
 import crazypants.enderio.conduit.item.filter.ItemExistingItemFilter;
 import crazypants.enderio.conduit.item.filter.ItemModItemFilter;
@@ -145,6 +146,7 @@ public enum ModObject implements IModObject {
   },
   itemExtractSpeedUpgrade(ItemExtractSpeedUpgrade.class),
   itemFunctionUpgrade(ItemFunctionUpgrade.class),
+  itemProcessingPlan(ItemProcessingPlan.class),
 
   // Power
   itemPowerConduit(ItemPowerConduit.class),

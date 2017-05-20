@@ -1,14 +1,13 @@
 package crazypants.enderio.conduit.item;
 
+import net.minecraft.util.ResourceLocation;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.util.ResourceLocation;
+public enum ProcessingPlan {
 
-public enum FunctionUpgrade {
-
-  INVENTORY_PANEL("inventoryPanelUpgrade", "item.itemInventoryPanelUpgrade", 1),
-  PROCESSING("processingUpgrade", "item.itemProcessingUpgrade", 1);
+  PROCESSING_PLAN("processingPlan", "item.itemProcessingPlan", 1);
 
   public final String baseName;
   public final String iconName;
@@ -17,13 +16,13 @@ public enum FunctionUpgrade {
 
   public static List<ResourceLocation> resources() {
     List<ResourceLocation> res = new ArrayList<ResourceLocation>(values().length);
-    for(FunctionUpgrade c : values()) {
+    for(ProcessingPlan c : values()) {
       res.add(new ResourceLocation(c.iconName));
     }
     return res;
   }
-  
-  private FunctionUpgrade(String name, String unlocName, int maxStackSize) {
+
+  private ProcessingPlan(String name, String unlocName, int maxStackSize) {
     this.baseName = name;
     this.iconName = "enderio:" + name;
     this.unlocName = unlocName;

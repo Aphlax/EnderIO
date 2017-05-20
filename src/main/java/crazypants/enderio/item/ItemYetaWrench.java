@@ -227,26 +227,15 @@ public class ItemYetaWrench extends Item implements ITool, IConduitControl, IAdv
 
   @Override
   @Optional.Method(modid = "cofhapi|item")
-  public boolean isUsable(ItemStack item, EntityLivingBase user, BlockPos pos) {
+  public boolean isUsable(ItemStack item, EntityLivingBase user, int x, int y, int z) {
     return true;
   }
 
   @Override
   @Optional.Method(modid = "cofhapi|item")
-  public boolean isUsable(ItemStack item, EntityLivingBase user, Entity entity) {
-    return false;
-  }
-
-  @Override
-  @Optional.Method(modid = "cofhapi|item")
-  public void toolUsed(ItemStack item, EntityLivingBase user, BlockPos pos) {
+  public void toolUsed(ItemStack item, EntityLivingBase user, int x, int y, int z) {
     if (user instanceof EntityPlayer) {
-      used(user.getHeldItemMainhand(), (EntityPlayer) user, pos);
+      used(user.getHeldItemMainhand(), (EntityPlayer) user, new BlockPos(x, y, z));
     }
-  }
-
-  @Override
-  @Optional.Method(modid = "cofhapi|item")
-  public void toolUsed(ItemStack item, EntityLivingBase user, Entity entity) {
   }
 }

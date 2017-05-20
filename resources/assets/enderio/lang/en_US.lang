@@ -93,6 +93,9 @@ item.itemExtractSpeedDowngrade.tooltip.basic.line1=Downgrade for item conduits
 item.itemExtractSpeedDowngrade.tooltip.detailed.line1=Reduces speed to 1
 item.itemExtractSpeedDowngrade.tooltip.detailed.line2=item per extraction
 
+
+item.itemProcessingPlan.name=Processing Plan
+
 item.itemInventoryPanelUpgrade.name=Remote Awareness Upgrade
 item.itemInventoryPanelUpgrade.tooltip.basic.line1=Inventory Panel Remote Awareness
 item.itemInventoryPanelUpgrade.tooltip.detailed.line1=Function upgrade for item conduits
@@ -101,6 +104,8 @@ item.itemInventoryPanelUpgrade.tooltip.detailed.line3=to this network to see and
 item.itemInventoryPanelUpgrade.tooltip.detailed.line4=items from this inventory independent
 item.itemInventoryPanelUpgrade.tooltip.detailed.line5=of the conduit mode.
 item.itemInventoryPanelUpgrade.tooltip.detailed.line6=(No need to set the conduit to extract)
+
+item.itemProcessingUpgrade.name=Processing Upgrade
 
 enderio.itemGasConduit.name=Gas Conduit
 
@@ -860,6 +865,8 @@ skullZombieFrankenstien.name=Frank'N'Zombie
 skullEnderResonator.name=Ender Resonator 
 skullSentientEnder.name=Sentient Ender
 skullSkeletalContractor.name=Skeletal Contractor
+managementController.name=Management Core
+//managementProfessor.name=Management Core
 
 item.itemSpawnEggEnderIO.name=Spawn
 

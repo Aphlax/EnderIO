@@ -31,12 +31,12 @@ public class TEToolProvider implements IToolProvider {
 
     @Override
     public boolean canUse(ItemStack stack, EntityPlayer player, BlockPos pos) {
-      return ((IToolHammer) stack.getItem()).isUsable(stack, player, pos);
+      return ((IToolHammer) stack.getItem()).isUsable(stack, player, pos.getX(), pos.getY(), pos.getZ());
     }
 
     @Override
     public void used(ItemStack stack, EntityPlayer player, BlockPos pos) {
-      ((IToolHammer) stack.getItem()).toolUsed(stack, player, pos);
+      ((IToolHammer) stack.getItem()).toolUsed(stack, player, pos.getX(), pos.getY(), pos.getZ());
     }
     
     @Override
