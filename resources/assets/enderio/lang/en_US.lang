@@ -627,6 +627,11 @@ tile.blockInventoryPanelSensor.tooltip.detailed.line3=in an Inventory Panel netw
 enderio.gui.inventorySensor.control1=Start when < 
 enderio.gui.inventorySensor.control2=Stop when >=
 
+tile.blockBatch.name=Batch Processor
+tile.blockBatch.tooltip.detailed.line1=Groups the inputs together
+tile.blockBatch.tooltip.detailed.line2=Consumes power per operation
+tile.blockBatch.tooltip.detailed.line3=Can be upgraded to increase
+tile.blockBatch.tooltip.detailed.line4=energy storage with capacitors
 
 //Blocks
 tile.blockPaintedPressurePlate.wood.name=Wooden Pressure Plate
@@ -866,7 +871,7 @@ skullEnderResonator.name=Ender Resonator
 skullSentientEnder.name=Sentient Ender
 skullSkeletalContractor.name=Skeletal Contractor
 managementController.name=Management Core
-//managementProfessor.name=Management Core
+managementProfessor.name=Professor Ghasty
 
 item.itemSpawnEggEnderIO.name=Spawn
 
@@ -1067,6 +1072,7 @@ enderio.gui.machine.upkeep=Upkeep:
 enderio.gui.machine.bufferingstacks=Buffering item stacks
 enderio.gui.machine.bufferingsingle=Buffering single items
 enderio.gui.machine.percraft=Per Craft
+enderio.gui.machine.perop=Per Operation
 enderio.gui.machine.side=Side: %s
 enderio.gui.machine.side.north=North
 enderio.gui.machine.side.south=South

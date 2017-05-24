@@ -90,6 +90,8 @@ public enum CapacitorKey implements ICapacitorKey {
   LEGACY_ENERGY_BUFFER(ModObject.itemBasicCapacitor, CapacitorKeyType.ENERGY_BUFFER, Scaler.Factory.POWER, 100000, null, null),
   LEGACY_ENERGY_USE(ModObject.itemBasicCapacitor, CapacitorKeyType.ENERGY_USE, Scaler.Factory.POWER, 20, null, null),
 
+  BATCH_POWER_INTAKE(ModObject.blockBatch, CapacitorKeyType.ENERGY_INTAKE, Scaler.Factory.POWER10, 500),
+  BATCH_POWER_BUFFER(ModObject.blockBatch, CapacitorKeyType.ENERGY_BUFFER, Scaler.Factory.POWER, 100000),
   //
   ;
   

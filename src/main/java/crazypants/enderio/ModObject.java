@@ -44,6 +44,7 @@ import crazypants.enderio.item.ItemSoulVessel;
 import crazypants.enderio.item.ItemYetaWrench;
 import crazypants.enderio.item.skull.BlockEndermanSkull;
 import crazypants.enderio.machine.alloy.BlockAlloySmelter;
+import crazypants.enderio.machine.batch.BlockBatch;
 import crazypants.enderio.machine.buffer.BlockBuffer;
 import crazypants.enderio.machine.capbank.BlockCapBank;
 import crazypants.enderio.machine.crafter.BlockCrafter;
@@ -145,8 +146,8 @@ public enum ModObject implements IModObject {
     }
   },
   itemExtractSpeedUpgrade(ItemExtractSpeedUpgrade.class),
-  itemFunctionUpgrade(ItemFunctionUpgrade.class),
   itemProcessingPlan(ItemProcessingPlan.class),
+  itemFunctionUpgrade(ItemFunctionUpgrade.class),
 
   // Power
   itemPowerConduit(ItemPowerConduit.class),
@@ -192,6 +193,7 @@ public enum ModObject implements IModObject {
   blockBuffer(BlockBuffer.class),
   blockInventoryPanel(BlockInventoryPanel.class),
   blockInventoryChest(BlockInventoryChest.class),
+  blockBatch(BlockBatch.class),
 
   blockPoweredSpawner(BlockPoweredSpawner.class),
   itemBrokenSpawner(ItemBrokenSpawner.class),

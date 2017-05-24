@@ -16,7 +16,8 @@ public enum FrankenSkull {
   ENDER_RESONATOR("skullEnderResonator", "enderio:skullEnderResonator", false),
   SENTIENT_ENDER("skullSentientEnder", "enderio:skullEnderResonator", true),
   SKELETAL_CONTRACTOR("skullSkeletalContractor", "enderio:skullSkeletalContractor", false),
-  MANAGEMENT_CONTROLLER("managementController", false);
+  MANAGEMENT_CONTROLLER("managementController", false),
+  PROFESSOR("managementProfessor", "enderio:managementController", true);
   
   public final @Nonnull String baseName;
   public final @Nonnull String unlocalisedName;
