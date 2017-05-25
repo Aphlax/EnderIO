@@ -53,12 +53,12 @@ public class FilterTab implements ITabPanel {
   protected void updateSendRecieve() {
     parent.getGhostSlots().clear();
     if (showSend) {
-      sendGui.updateButtons();
+      sendGui.initGui();
       recGui.deactivate();
       sendGui.createFilterSlots();
     } else {
       sendGui.deactivate();
-      recGui.updateButtons();
+      recGui.initGui();
       recGui.createFilterSlots();
     }
   }

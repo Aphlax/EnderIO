@@ -181,7 +181,6 @@ public class SpeciesItemFilter implements IInventory, IItemFilter {
   public IItemFilterGui getGui(GuiExternalConnection gui, IItemConduit itemConduit, boolean isInput) {
     ItemConduitFilterContainer cont = new ItemConduitFilterContainer(itemConduit, gui.getDir(), isInput);
     SpeciesItemFilterGui itemFilterGui = new SpeciesItemFilterGui(gui, cont, !isInput);
-    itemFilterGui.createFilterSlots();
     return itemFilterGui;
   }
 

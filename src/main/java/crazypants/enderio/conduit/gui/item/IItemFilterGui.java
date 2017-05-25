@@ -6,7 +6,7 @@ public interface IItemFilterGui {
 
   void deactivate();
 
-  void updateButtons();
+  void initGui();
 
   void actionPerformed(GuiButton guiButton);
   

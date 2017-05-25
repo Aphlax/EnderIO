@@ -111,7 +111,8 @@ public class BasicItemFilterGui implements IItemFilterGui {
   }
   
   @Override
-  public void updateButtons() {
+  public void initGui() {
+    createFilterSlots();
     ItemFilter activeFilter = filter;
 
     if(isAdvanced) {
@@ -172,7 +173,7 @@ public class BasicItemFilterGui implements IItemFilterGui {
   }
   
   private void sendFilterChange() {
-    updateButtons();
+    initGui();
     filterContainer.onFilterChanged();
   }
   

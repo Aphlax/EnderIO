@@ -53,6 +53,10 @@ public interface IItemConduit extends IExtractor {
 
   ItemStack getFunctionUpgrade(EnumFacing dir);
 
+  void setProcessingPlan(EnumFacing dir, int i, ItemStack upgrade);
+
+  ItemStack getProcessingPlan(EnumFacing dir, int i);
+
   boolean hasInventoryPanelUpgrade(EnumFacing dir);
 
   int getOutputPriority(EnumFacing dir);

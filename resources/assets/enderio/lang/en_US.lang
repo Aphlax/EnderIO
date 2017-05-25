@@ -1225,6 +1225,12 @@ enderio.gui.conduit.item.selfFeedDisabled=Self Feed Disabled
 enderio.gui.conduit.item.roundRobinEnabled=Round Robin Enabled
 enderio.gui.conduit.item.roundRobinDisabled=Round Robin Disabled
 enderio.gui.conduit.item.priority=Priority
+enderio.gui.conduit.item.filter=Filter
+enderio.gui.conduit.item.processing=Processing
+enderio.gui.conduit.item.blockingEnabled=Processing Mode Blocking
+enderio.gui.conduit.item.blockingDisabled=Processing Mode Non-Blocking
+enderio.gui.conduit.item.pulseDisabled=Emit Redstone Pulse Disabled
+enderio.gui.conduit.item.pulseEnabled=Emit Redstone Pulse Enabled
 
 enderio.gui.conduit.item.damage.disabled=Ignore Damage
 enderio.gui.conduit.item.damage.damage_00_25=Up to 25% Damaged

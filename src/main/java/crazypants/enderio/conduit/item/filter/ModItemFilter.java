@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModItemFilter implements IItemFilter {
 
-  private final String[] mods = new String[3];
+  private final String[] mods = new String[2];
   private boolean blacklist = false;
 
   public String setMod(int index, ItemStack itemStack) {

@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
+import crazypants.enderio.conduit.gui.UpgradeChangeListener;
+import crazypants.enderio.conduit.item.ItemFunctionUpgrade;
+import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import com.enderio.core.client.gui.button.ColorButton;
@@ -42,6 +45,9 @@ public class ItemSettings extends BaseSettingsPanel {
 
   private static final int ID_COLOR_BUTTON = 179816;
 
+  private static final int ID_DISPLAY_PROCESS_LEFT_ID = 99000;
+  private static final int ID_DISPLAY_PROCESS_RIGHT_ID = 99001;
+
   private static final int ID_LOOP = 22;
   private static final int ID_ROUND_ROBIN = 24;
   private static final int ID_PRIORITY_UP = 25;
@@ -52,6 +58,8 @@ public class ItemSettings extends BaseSettingsPanel {
 
   private String inputHeading;
   private String outputHeading;
+  private String filterSubHeading;
+  private String processingSubHeading;
 
   private final MultiIconButton nextFilterB;
 
@@ -78,7 +86,13 @@ public class ItemSettings extends BaseSettingsPanel {
   private final GuiToolTip functionUpgradeTooltip;
   private final GuiToolTip filterUpgradeTooltip;
 
+  private final MultiIconButton displayPorcessLeftB;
+  private final MultiIconButton displayPorcessRightB;
+
+  private boolean displayProcess = true;
+
   private IItemFilterGui filterGui;
+  private ProcessingGui processGui;
 
   public ItemSettings(final GuiExternalConnection gui, IConduit con) {
     super(IconEIO.WRENCH_OVERLAY_ITEM, EnderIO.lang.localize("itemItemConduit.name"), gui, con);
@@ -86,6 +100,8 @@ public class ItemSettings extends BaseSettingsPanel {
 
     inputHeading = EnderIO.lang.localize("gui.conduit.item.extractionFilter");
     outputHeading = EnderIO.lang.localize("gui.conduit.item.insertionFilter");
+    filterSubHeading = EnderIO.lang.localize("gui.conduit.item.filter");
+    processingSubHeading = EnderIO.lang.localize("gui.conduit.item.processing");
 
     int x = 52;
     int y = customTop;
@@ -171,10 +187,21 @@ public class ItemSettings extends BaseSettingsPanel {
     priUpB = MultiIconButton.createAddButton(gui, ID_PRIORITY_UP, x, y);
     priDownB = MultiIconButton.createMinusButton(gui, ID_PRIORITY_DOWN, x, y+8);
 
+    y = y + 20;
+    x = 52;
+    displayPorcessLeftB = MultiIconButton.createLeftArrowButton(gui, ID_DISPLAY_PROCESS_LEFT_ID, x, y);
+    displayPorcessRightB = MultiIconButton.createRightArrowButton(gui, ID_DISPLAY_PROCESS_RIGHT_ID, x + 74, y);
+
     gui.getContainer().addFilterListener(new FilterChangeListener() {
       @Override
       public void onFilterChanged() {
-        filtersChanged();
+        updateGuiVisibility();
+      }
+    });
+    gui.getContainer().addUpgradeListener(new UpgradeChangeListener() {
+      @Override
+      public void onUpgradeChanged() {
+        updateGuiVisibility();
       }
     });
 
@@ -194,6 +221,14 @@ public class ItemSettings extends BaseSettingsPanel {
     return outputHeading;
   }
 
+  private String getSubHeading() {
+    if (displayProcess) {
+      return processingSubHeading;
+    } else {
+      return filterSubHeading;
+    }
+  }
+
   @Override
   protected void initCustomOptions() {
     updateGuiVisibility();
@@ -201,11 +236,11 @@ public class ItemSettings extends BaseSettingsPanel {
 
   private void updateGuiVisibility() {
     deactivate();
-    createFilterGUI();
-    updateButtons();
+    create();
+    initGui();
   }
 
-  private void createFilterGUI() {
+  private void create() {
     boolean showInput = false;
     boolean showOutput = false;
 
@@ -225,31 +260,26 @@ public class ItemSettings extends BaseSettingsPanel {
       activeFilter = null;
     } else if(showInput) {
       activeFilter = itemConduit.getInputFilter(gui.getDir());
-      gui.getContainer().setInventorySlotsVisible(true);
-      gui.getContainer().setInoutSlotsVisible(true, false);
       if(activeFilter != null) {
         filterGui = activeFilter.getGui(gui,itemConduit,true);
       }
+      gui.getContainer().setInventorySlotsVisible(true);
+      gui.getContainer().setInoutSlotsVisible(true, false, showProcess());
     } else if(showOutput) {
       activeFilter = itemConduit.getOutputFilter(gui.getDir());
-      gui.getContainer().setInoutSlotsVisible(false, true);
-      gui.getContainer().setInventorySlotsVisible(true);
       if(activeFilter != null) {
         filterGui = activeFilter.getGui(gui,itemConduit,false);
       }
+      gui.getContainer().setInoutSlotsVisible(false, true, showProcess());
+      gui.getContainer().setInventorySlotsVisible(true);
+    }
+
+    if (hasProcessing()) {
+      processGui = new ProcessingGui(gui);
     }
   }
 
-  private void filtersChanged() {
-    deactiveFilterGUI();
-    createFilterGUI();
-
-    if(filterGui != null) {
-      filterGui.updateButtons();
-    }
-  }
-
-  private void updateButtons() {
+  private void initGui() {
 
     ConnectionMode mode = con.getConnectionMode(gui.getDir());
     if(mode == ConnectionMode.DISABLED) {
@@ -295,8 +325,16 @@ public class ItemSettings extends BaseSettingsPanel {
     channelB.onGuiInit();
     channelB.setColorIndex(chanCol);
 
-    if(filterGui != null) {
-      filterGui.updateButtons();
+    if (hasFiltersAndProcessing()) {
+      displayPorcessLeftB.onGuiInit();
+      displayPorcessRightB.onGuiInit();
+    }
+
+    if(showFilters()) {
+      filterGui.initGui();
+    }
+    if(showProcess()) {
+      processGui.initGui();
     }
   }
 
@@ -330,10 +368,16 @@ public class ItemSettings extends BaseSettingsPanel {
         itemConduit.setOutputColor(gui.getDir(), col);
       } 
       sendFilterChange();
+    } else if(guiButton.id == ID_DISPLAY_PROCESS_LEFT_ID || guiButton.id == ID_DISPLAY_PROCESS_RIGHT_ID) {
+      displayProcess = !displayProcess;
+      updateGuiVisibility();
     }
 
-    if(filterGui != null) {
+    if(showFilters()) {
       filterGui.actionPerformed(guiButton);
+    }
+    if(showProcess()) {
+      processGui.actionPerformed(guiButton);
     }
   }
 
@@ -344,14 +388,54 @@ public class ItemSettings extends BaseSettingsPanel {
   @Override
   public void mouseClicked(int x, int y, int par3) {    
     super.mouseClicked(x, y, par3);
-    if(filterGui != null) {
+    if(showFilters()) {
       filterGui.mouseClicked(x, y, par3);
+    }
+    if (showProcess()) {
+      processGui.mouseClicked(x, y, par3);
+    }
+  }
+
+  @Override
+  public void keyTyped(char par1, int par2) {
+    super.keyTyped(par1, par2);
+    if (showProcess()) {
+      processGui.keyTyped(par1, par2);
+    }
+  }
+
+  @Override
+  public void updateScreen() {
+    super.updateScreen();
+    if (showProcess()) {
+      processGui.updateScreen();
     }
   }
 
   private boolean isInputVisible() {
     ConnectionMode mode = con.getConnectionMode(gui.getDir());    
     return (mode == ConnectionMode.IN_OUT && inOutShowIn) || (mode == ConnectionMode.INPUT);
+  }
+
+  private boolean hasProcessing() {
+    ItemStack functionUpgrade = itemConduit.getFunctionUpgrade(gui.getDir());
+    if (functionUpgrade != null && functionUpgrade.getItem() instanceof ItemFunctionUpgrade) {
+      FunctionUpgrade upgrade = ItemFunctionUpgrade.getFunctionUpgrade(functionUpgrade);
+      return upgrade != null && upgrade == FunctionUpgrade.PROCESSING;
+    }
+    return false;
+  }
+
+  private boolean hasFiltersAndProcessing() {
+    return hasProcessing() && filterGui != null;
+  }
+
+  private boolean showFilters() {
+    return filterGui != null && (!hasFiltersAndProcessing() || !displayProcess);
+  }
+
+  private boolean showProcess() {
+    return hasProcessing() && (!hasFiltersAndProcessing() || displayProcess);
   }
 
   @Override
@@ -376,6 +460,11 @@ public class ItemSettings extends BaseSettingsPanel {
     int rgb = ColorUtil.getRGB(Color.darkGray);
     fr.drawString(heading, left + x, top, rgb);
 
+    if (hasFiltersAndProcessing()) {
+      String subHeading = getSubHeading();
+      fr.drawString(subHeading, left + 56, top + 20, rgb);
+    }
+
     boolean outputActive = (mode == ConnectionMode.IN_OUT && !inOutShowIn) || (mode == ConnectionMode.OUTPUT);
     if(outputActive) {
       GL11.glColor3f(1, 1, 1);
@@ -398,15 +487,19 @@ public class ItemSettings extends BaseSettingsPanel {
     //function upgrade slot
     gui.drawTexturedModalRect(gui.getGuiLeft() + 9, gui.getGuiTop() + 46 + 18, 112, 238, 18, 18);
 
-    if(filterGui != null) {
+    if(showFilters()) {
       filterGui.renderCustomOptions(top, par1, par2, par3);
+    }
+
+    if (showProcess()) {
+      processGui.renderCustomOptions(top, par1, par2, par3);
     }
   }
 
   @Override
   public void deactivate() {
     gui.getContainer().setInventorySlotsVisible(false);
-    gui.getContainer().setInoutSlotsVisible(false, false);
+    gui.getContainer().setInoutSlotsVisible(false, false, false);
     rsB.detach();
     colorB.detach();
     roundRobinB.detach();
@@ -419,13 +512,18 @@ public class ItemSettings extends BaseSettingsPanel {
     gui.removeToolTip(functionUpgradeTooltip);
     gui.removeToolTip(filterUpgradeTooltip);
     channelB.detach();
-    deactiveFilterGUI();
+    deactiveLowerGUI();
   }
 
-  private void deactiveFilterGUI() {
+  private void deactiveLowerGUI() {
+    displayPorcessLeftB.detach();
+    displayPorcessRightB.detach();
     if(filterGui != null) {
       filterGui.deactivate();
       filterGui = null;
+    }
+    if (processGui != null) {
+      processGui.deactivate();
     }
     gui.clearGhostSlots();
   }

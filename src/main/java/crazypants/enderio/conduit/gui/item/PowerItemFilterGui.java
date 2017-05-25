@@ -61,7 +61,7 @@ public class PowerItemFilterGui implements IItemFilterGui {
   }
 
   @Override
-  public void updateButtons() {
+  public void initGui() {
     if(!isInput) {
       stickyB.onGuiInit();
       stickyB.setSelected(filter.isSticky());
@@ -107,7 +107,7 @@ public class PowerItemFilterGui implements IItemFilterGui {
   }
 
   private void sendFilterChange() {
-    updateButtons();
+    initGui();
     PacketHandler.INSTANCE.sendToServer(new PacketItemConduitFilter(itemConduit, gui.getDir()));
   }
 

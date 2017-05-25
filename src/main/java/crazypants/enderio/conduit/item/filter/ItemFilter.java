@@ -299,7 +299,6 @@ public class ItemFilter implements IInventory, ILimitedItemFilter {
   public IItemFilterGui getGui(GuiExternalConnection gui, IItemConduit itemConduit, boolean isInput) {
     ItemConduitFilterContainer cont = new ItemConduitFilterContainer(itemConduit, gui.getDir(), isInput);
     BasicItemFilterGui basicItemFilterGui = new BasicItemFilterGui(gui, cont, !isInput);
-    basicItemFilterGui.createFilterSlots();
     return basicItemFilterGui;
   }
 

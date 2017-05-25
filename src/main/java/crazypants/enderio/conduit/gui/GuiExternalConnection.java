@@ -46,7 +46,7 @@ public class GuiExternalConnection extends GuiContainerBaseEIO {
     ySize = 166 + 29;
     xSize = 206;
 
-    container.setInoutSlotsVisible(false, false);
+    container.setInoutSlotsVisible(false, false, false);
     container.setInventorySlotsVisible(false);
 
     List<IConduit> cons = new ArrayList<IConduit>(bundle.getConduits());
@@ -110,6 +110,20 @@ public class GuiExternalConnection extends GuiContainerBaseEIO {
     if (activeTab < tabs.size())
     tabs.get(activeTab).mouseClicked(x, y, par3);
 
+  }
+
+  @Override
+  protected void keyTyped(char c, int key) throws IOException {
+    if (activeTab < tabs.size())
+      tabs.get(activeTab).keyTyped(c, key);
+    super.keyTyped(c, key);
+  }
+
+  @Override
+  public void updateScreen() {
+    super.updateScreen();
+    if (activeTab < tabs.size())
+      tabs.get(activeTab).updateScreen();
   }
 
   public void setSize(int x, int y) {

@@ -11,13 +11,15 @@ public class PacketSlotVisibility implements IMessage, IMessageHandler<PacketSlo
 
   private boolean inputVisible;
   private boolean outputVisible;
+  private boolean plansVisible;
 
   public PacketSlotVisibility() {
   }
 
-  public PacketSlotVisibility(boolean inputVisible, boolean outputVisible) {
+  public PacketSlotVisibility(boolean inputVisible, boolean outputVisible, boolean plansVisible) {
     this.inputVisible = inputVisible;
     this.outputVisible = outputVisible;
+    this.plansVisible = plansVisible;
   }
 
   @Override
@@ -25,11 +27,12 @@ public class PacketSlotVisibility implements IMessage, IMessageHandler<PacketSlo
     int value = bb.readUnsignedByte();
     inputVisible = (value & 1) != 0;
     outputVisible = (value & 2) != 0;
+    plansVisible = (value & 4) != 0;
   }
 
   @Override
   public void toBytes(ByteBuf bb) {
-    int value = (inputVisible ? 1 : 0) | (outputVisible ? 2 : 0);
+    int value = (inputVisible ? 1 : 0) | (outputVisible ? 2 : 0) | (plansVisible ? 4 : 0);
     bb.writeByte(value);
   }
 
@@ -38,7 +41,7 @@ public class PacketSlotVisibility implements IMessage, IMessageHandler<PacketSlo
     EntityPlayerMP player = ctx.getServerHandler().playerEntity;
     if(player.openContainer instanceof ExternalConnectionContainer) {
       ExternalConnectionContainer ecc = (ExternalConnectionContainer) player.openContainer;
-      ecc.setInoutSlotsVisible(message.inputVisible, message.outputVisible);
+      ecc.setInoutSlotsVisible(message.inputVisible, message.outputVisible, message.plansVisible);
     }
     return null;
   }

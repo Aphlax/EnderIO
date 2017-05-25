@@ -69,7 +69,7 @@ public class SpeciesItemFilterGui implements IItemFilterGui {
     speciesModeB = new CycleButton<SpeciesMode.IconHolder>(gui, ID_SPECIES_MODE + buttonIdOffset, x, y, SpeciesMode.IconHolder.class);
   }
 
-  public void createFilterSlots() {
+  private void createFilterSlots() {
     filter.createGhostSlots(gui.getGhostSlots(), xOffset+1, yOffset+1, new Runnable() {
       @Override
       public void run() {
@@ -83,7 +83,8 @@ public class SpeciesItemFilterGui implements IItemFilterGui {
   }
   
   @Override
-  public void updateButtons() {
+  public void initGui() {
+    createFilterSlots();
     if(isStickyModeAvailable) {
       stickyB.onGuiInit();
       stickyB.setSelected(filter.isSticky());
@@ -119,7 +120,7 @@ public class SpeciesItemFilterGui implements IItemFilterGui {
   }
   
   private void sendFilterChange() {
-    updateButtons();
+    initGui();
     filterContainer.onFilterChanged();
   }
   

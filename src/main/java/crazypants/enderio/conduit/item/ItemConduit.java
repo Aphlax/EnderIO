@@ -52,6 +52,7 @@ import net.minecraftforge.items.IItemHandler;
 
 import static crazypants.enderio.ModObject.itemBasicFilterUpgrade;
 import static crazypants.enderio.ModObject.itemItemConduit;
+import static crazypants.enderio.conduit.gui.ExternalConnectionContainer.NR_PROCESSING_PLANS;
 
 public class ItemConduit extends AbstractConduit implements IItemConduit, IConduitComponent {
 
@@ -107,6 +108,7 @@ public class ItemConduit extends AbstractConduit implements IItemConduit, ICondu
   protected final EnumMap<EnumFacing, ItemStack> inputFilterUpgrades = new EnumMap<EnumFacing, ItemStack>(EnumFacing.class);
   protected final EnumMap<EnumFacing, ItemStack> speedUpgrades = new EnumMap<EnumFacing, ItemStack>(EnumFacing.class);
   protected final EnumMap<EnumFacing, ItemStack> functionUpgrades = new EnumMap<EnumFacing, ItemStack>(EnumFacing.class);
+  protected final EnumMap<EnumFacing, ItemStack>[] processingPlans;
 
   protected final EnumMap<EnumFacing, Boolean> selfFeed = new EnumMap<EnumFacing, Boolean>(EnumFacing.class);
 
@@ -125,6 +127,10 @@ public class ItemConduit extends AbstractConduit implements IItemConduit, ICondu
 
   public ItemConduit(int itemDamage) {
     metaData = itemDamage;
+    processingPlans = new EnumMap[NR_PROCESSING_PLANS];
+    for (int i = 0; i < processingPlans.length; i++) {
+      processingPlans[i] = new EnumMap<EnumFacing, ItemStack>(EnumFacing.class);
+    }
   }
 
 
@@ -308,6 +314,28 @@ public class ItemConduit extends AbstractConduit implements IItemConduit, ICondu
   @Override
   public ItemStack getFunctionUpgrade(EnumFacing dir) {
     return functionUpgrades.get(dir);
+  }
+
+  @Override
+  public void setProcessingPlan(EnumFacing dir, int i, ItemStack upgrade) {
+    if (i < 0 || i >= NR_PROCESSING_PLANS) {
+      return;
+    }
+    if(upgrade != null) {
+      processingPlans[i].put(dir, upgrade);
+    } else {
+      processingPlans[i].remove(dir);
+    }
+    setClientStateDirty();
+  }
+
+  @Override
+  public ItemStack getProcessingPlan(EnumFacing dir, int i) {
+    if (i >= 0 && i < NR_PROCESSING_PLANS) {
+      return processingPlans[i].get(dir);
+    } else {
+      return null;
+    }
   }
 
   @Override
@@ -670,6 +698,8 @@ public class ItemConduit extends AbstractConduit implements IItemConduit, ICondu
       }
     }
 
+    // TODO write processing plans!
+
     for (Entry<EnumFacing, IItemFilter> entry : outputFilters.entrySet()) {
       if(entry.getValue() != null) {
         IItemFilter f = entry.getValue();
@@ -792,6 +822,8 @@ public class ItemConduit extends AbstractConduit implements IItemConduit, ICondu
         ItemStack ups = ItemStack.loadItemStackFromNBT(upTag);
         functionUpgrades.put(dir, ups);
       }
+
+      // TODO read processing plans!
 
       key = "inputFilterUpgrades." + dir.name();
       if(nbtRoot.hasKey(key)) {

@@ -124,7 +124,7 @@ public class ExistingItemFilterGui implements IItemFilterGui {
   }
 
   @Override
-  public void updateButtons() {
+  public void initGui() {
 
     ExistingItemFilter activeFilter = filter;
 
@@ -214,7 +214,7 @@ public class ExistingItemFilterGui implements IItemFilterGui {
   }
 
   private void sendFilterChange() {
-    updateButtons();
+    initGui();
     PacketHandler.INSTANCE.sendToServer(new PacketItemConduitFilter(itemConduit, gui.getDir()));    
   }
 

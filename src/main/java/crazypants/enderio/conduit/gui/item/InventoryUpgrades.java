@@ -15,6 +15,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 
 import static crazypants.enderio.ModObject.itemExtractSpeedUpgrade;
+import static crazypants.enderio.ModObject.itemProcessingPlan;
+import static crazypants.enderio.conduit.gui.ExternalConnectionContainer.NR_PROCESSING_PLANS;
 
 public class InventoryUpgrades implements IInventory {
 
@@ -28,7 +30,7 @@ public class InventoryUpgrades implements IInventory {
 
   @Override
   public int getSizeInventory() {
-    return 4;
+    return 4 + NR_PROCESSING_PLANS;
   }
 
   @Override
@@ -42,9 +44,13 @@ public class InventoryUpgrades implements IInventory {
       return itemConduit.getInputFilterUpgrade(dir);
     case 3:
       return itemConduit.getOutputFilterUpgrade(dir);
-    default:
+    }
+    if (slot >= 4 && slot < 4 + NR_PROCESSING_PLANS) {
+      return itemConduit.getProcessingPlan(dir, slot - 4);
+    } else {
       return null;
     }
+
   }
 
   @Override
@@ -84,11 +90,14 @@ public class InventoryUpgrades implements IInventory {
       itemConduit.setOutputFilterUpgrade(dir, var2);
       break;
     }
+    if (slot >= 4 && slot < 4 + NR_PROCESSING_PLANS) {
+      itemConduit.setProcessingPlan(dir, slot - 4, var2);
+    }
   }
 
   @Override
   public void clear() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4 + NR_PROCESSING_PLANS; i++) {
       setInventorySlotContents(i, null);
     }
   }
@@ -138,15 +147,18 @@ public class InventoryUpgrades implements IInventory {
       return false;
     }
     switch (slot) {
-    case 0:
-      return item.getItem() == itemExtractSpeedUpgrade.getItem();
-    case 1:
-      final FunctionUpgrade functionUpgrade = ItemFunctionUpgrade.getFunctionUpgrade(item);
-      return functionUpgrade != null
-          && (functionUpgrade != FunctionUpgrade.INVENTORY_PANEL || !itemConduit.isConnectedToNetworkAwareBlock(dir));
-    case 2:
-    case 3:
-      return item.getItem() instanceof IItemFilterUpgrade;
+      case 0:
+        return item.getItem() == itemExtractSpeedUpgrade.getItem();
+      case 1:
+        final FunctionUpgrade functionUpgrade = ItemFunctionUpgrade.getFunctionUpgrade(item);
+        return functionUpgrade != null
+            && (functionUpgrade != FunctionUpgrade.INVENTORY_PANEL || !itemConduit.isConnectedToNetworkAwareBlock(dir));
+      case 2:
+      case 3:
+        return item.getItem() instanceof IItemFilterUpgrade;
+    }
+    if (slot >= 4 && slot < 4 + NR_PROCESSING_PLANS) {
+      return item.getItem() == itemProcessingPlan.getItem();
     }
     return false;
   }
