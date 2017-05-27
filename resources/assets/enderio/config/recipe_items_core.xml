@@ -20,6 +20,16 @@ More information on the syntax can be found in the recipes.xsd file. An
 XML editor will display that as tooltips when editing this file.
 
  -->
+  <recipe name="Processing Upgrade" required="true">
+    <crafting>
+      <grid size="3x3">
+        <item name="CONDUIT_BINDER" /><item name="SILICON" /><item name="CONDUIT_BINDER" />
+        <item name="SILICON" /><item name="SENTIENT_ENDER" /><item name="SILICON" />
+        <item name="CONDUIT_BINDER" /><item name="ELECTRICAL_STEEL" /><item name="CONDUIT_BINDER" />
+      </grid>
+      <output name="enderio:itemFunctionUpgrade:1" />
+    </crafting>
+  </recipe>
 
   <recipe name="Frank'N'Zombie" required="true">
     <config section="Recipe Settings" name="addPeacefulRecipes" value="true" />

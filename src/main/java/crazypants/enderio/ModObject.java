@@ -81,6 +81,7 @@ import crazypants.enderio.machine.painter.blocks.BlockPaintedStairs;
 import crazypants.enderio.machine.painter.blocks.BlockPaintedStone;
 import crazypants.enderio.machine.painter.blocks.BlockPaintedTrapDoor;
 import crazypants.enderio.machine.painter.blocks.BlockPaintedWall;
+import crazypants.enderio.machine.plantable.BlockPlanTable;
 import crazypants.enderio.machine.reservoir.BlockReservoir;
 import crazypants.enderio.machine.sagmill.BlockSagMill;
 import crazypants.enderio.machine.slicensplice.BlockSliceAndSplice;
@@ -194,6 +195,7 @@ public enum ModObject implements IModObject {
   blockInventoryPanel(BlockInventoryPanel.class),
   blockInventoryChest(BlockInventoryChest.class),
   blockBatch(BlockBatch.class),
+  blockPlanTable(BlockPlanTable.class),
 
   blockPoweredSpawner(BlockPoweredSpawner.class),
   itemBrokenSpawner(ItemBrokenSpawner.class),

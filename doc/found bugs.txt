@@ -2,3 +2,4 @@ Conduit connectors show missing texture in waila
 Opening survival inventory on telepad after unsuccessful teleport glitches out (wrong x-offset)
 Inventory storage system always show as tiny in waila
 rightclicking an item conduit writes the names of connecting inventories wrong
+enchanter: crossed arrow is misplaced

@@ -2,14 +2,4 @@
 <enderio:recipes xmlns:enderio="http://enderio.com/recipes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://enderio.com/recipes recipes.xsd ">
 
 
-    <recipe name="Processing Upgrade" required="true">
-        <crafting>
-            <grid size="3x3">
-                <item name="CONDUIT_BINDER" /><item name="SILICON" /><item name="CONDUIT_BINDER" />
-                <item name="SILICON" /><item name="SENTIENT_ENDER" /><item name="SILICON" />
-                <item name="CONDUIT_BINDER" /><item name="ELECTRICAL_STEEL" /><item name="CONDUIT_BINDER" />
-            </grid>
-            <output name="enderio:itemFunctionUpgrade:1" />
-        </crafting>
-    </recipe>
 </enderio:recipes>

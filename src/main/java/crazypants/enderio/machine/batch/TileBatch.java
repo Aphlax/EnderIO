@@ -47,7 +47,7 @@ public class TileBatch extends AbstractPowerConsumerEntity implements IPaintable
 
   @Override
   protected boolean processTasks(boolean redstoneCheck) {
-    if (!redstoneCheck || !isBatchComplete() || !canOutput() || !hasRequiredPower()) {
+    if (!canOutput() || !redstoneCheck || !isBatchComplete() || !hasRequiredPower()) {
       return false;
     }
 

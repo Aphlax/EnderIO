@@ -19,9 +19,6 @@ public class GuiBatch extends GuiPoweredMachineBase<TileBatch> {
   public GuiBatch(InventoryPlayer par1InventoryPlayer, TileBatch te) {
     super(te, new ContainerBatch(par1InventoryPlayer, te), "batch");
     xSize = getXSize();
-
-    int x = xSize - 5 - 16;
-    int y = 43;
   }
 
   @Override

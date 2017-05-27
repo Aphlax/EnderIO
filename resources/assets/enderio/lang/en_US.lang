@@ -633,6 +633,8 @@ tile.blockBatch.tooltip.detailed.line2=Consumes power per operation
 tile.blockBatch.tooltip.detailed.line3=Can be upgraded to increase
 tile.blockBatch.tooltip.detailed.line4=energy storage with capacitors
 
+tile.blockPlanTable.name=Processing Plan Table
+
 //Blocks
 tile.blockPaintedPressurePlate.wood.name=Wooden Pressure Plate
 tile.blockPaintedPressurePlate.wood.tooltip.detailed.line1=Can be painted in painting machine,
@@ -1186,6 +1188,10 @@ enderio.gui.travelAccessable.skipPrivate=Skipped private anchor.
 enderio.gui.telepad.configure.travel=Travel Settings
 enderio.gui.telepad.configure.telepad=Telepad Settings
 enderio.gui.telepad.blocked=Teleport Blocked!
+
+enderio.gui.planTable.crafting=Crafting Plan
+enderio.gui.planTable.processing=Processing Plan
+enderio.gui.planTable.imprint=Imprint Plan
 
 //Spawn Gurad [sic]
 enderio.gui.spawnGurad.showRange=Show Range
