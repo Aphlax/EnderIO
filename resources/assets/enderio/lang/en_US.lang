@@ -95,6 +95,9 @@ item.itemExtractSpeedDowngrade.tooltip.detailed.line2=item per extraction
 
 
 item.itemProcessingPlan.name=Processing Plan
+enderio.itemProcessingPlan.tooltip.empty=Configure in Processing Plan Table
+enderio.itemProcessingPlan.tooltip.produce=Produces
+enderio.itemProcessingPlan.tooltip.ingredient=with
 
 item.itemInventoryPanelUpgrade.name=Remote Awareness Upgrade
 item.itemInventoryPanelUpgrade.tooltip.basic.line1=Inventory Panel Remote Awareness

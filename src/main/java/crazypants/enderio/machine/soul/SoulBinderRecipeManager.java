@@ -30,6 +30,7 @@ public class SoulBinderRecipeManager {
     MachineRecipeRegistry.instance.registerRecipe(ModObject.blockSoulBinder.getUnlocalisedName(), SoulBinderEnderCystalRecipe.instance);
     MachineRecipeRegistry.instance.registerRecipe(ModObject.blockSoulBinder.getUnlocalisedName(), SoulBinderAttractorCystalRecipe.instance);
     MachineRecipeRegistry.instance.registerRecipe(ModObject.blockSoulBinder.getUnlocalisedName(), SoulBinderPrecientCystalRecipe.instance);
+    MachineRecipeRegistry.instance.registerRecipe(ModObject.blockSoulBinder.getUnlocalisedName(), SoulBinderManagementProfessor.instance);
 
     //Ender Rail
 //    if(Config.transceiverEnabled && Config.enderRailEnabled) {

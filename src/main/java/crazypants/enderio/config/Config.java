@@ -446,6 +446,8 @@ public final class Config {
   public static int soulBinderTunedPressurePlateLevels = 2;
   public static int soulBinderTunedPressurePlateRF = 250000;
   public static int soulBinderMaxXpLevel = 40;
+  public static int soulBinderProfessorRF = 40000000;
+  public static int soulBinderProfessorLevels = 100;
 
   public static float slicenspliceToolDamageChance = 0.01f;
 
@@ -1331,7 +1333,7 @@ public final class Config {
     soulBinderBrokenSpawnerRF = config.get(sectionSoulBinder.name, "soulBinderBrokenSpawnerRF", soulBinderBrokenSpawnerRF,
         "The number of RF required to change the type of a broken spawner.").getInt(soulBinderBrokenSpawnerRF);
     soulBinderReanimationRF = config.get(sectionSoulBinder.name, "soulBinderReanimationRF", soulBinderReanimationRF,
-        "The number of RF required to to re-animated a mob head.").getInt(soulBinderReanimationRF);
+        "The number of RF required to re-animate a mob head.").getInt(soulBinderReanimationRF);
     soulBinderEnderCystalRF = config.get(sectionSoulBinder.name, "soulBinderEnderCystalRF", soulBinderEnderCystalRF,
         "The number of RF required to create an ender crystal.").getInt(soulBinderEnderCystalRF);
     soulBinderAttractorCystalRF = config.get(sectionSoulBinder.name, "soulBinderAttractorCystalRF", soulBinderAttractorCystalRF,
@@ -1342,6 +1344,8 @@ public final class Config {
         "The number of RF required to tune a pressure plate.").getInt(soulBinderTunedPressurePlateRF);
     soulBinderPrecientCystalRF = config.get(sectionSoulBinder.name, "soulBinderPrecientCystalRF", soulBinderPrecientCystalRF,
         "The number of RF required to create a precient crystal.").getInt(soulBinderPrecientCystalRF);
+    soulBinderProfessorRF = config.get(sectionSoulBinder.name, "soulBinderProfessorRF", soulBinderProfessorRF,
+        "The number of RF required to create a Professor.").getInt(soulBinderProfessorRF);
 
     soulBinderAttractorCystalLevels = config.get(sectionSoulBinder.name, "soulBinderAttractorCystalLevels", soulBinderAttractorCystalLevels,
         "The number of levels required to create an attractor crystal.").getInt(soulBinderAttractorCystalLevels);
@@ -1357,6 +1361,8 @@ public final class Config {
     // "The number of levels required to create an ender rail.").getInt(soulBinderEnderRailLevels);
     soulBinderTunedPressurePlateLevels = config.get(sectionSoulBinder.name, "soulBinderTunedPressurePlateLevels", soulBinderTunedPressurePlateLevels,
         "The number of levels required to tune a pressure plate.").getInt(soulBinderTunedPressurePlateLevels);
+    soulBinderProfessorLevels = config.get(sectionSoulBinder.name, "soulBinderProfessorLevels", soulBinderProfessorLevels,
+        "The number of levels required to create a Professor.").getInt(soulBinderProfessorLevels);
 
     soulBinderMaxXpLevel = config.get(sectionSoulBinder.name, "soulBinderMaxXPLevel", soulBinderMaxXpLevel, "Maximum level of XP the soul binder can contain.").getInt();
 

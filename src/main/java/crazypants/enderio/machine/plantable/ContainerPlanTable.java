@@ -4,17 +4,23 @@ import com.enderio.core.client.gui.widget.GhostBackgroundItemSlot;
 import com.enderio.core.client.gui.widget.GhostSlot;
 import com.enderio.core.common.ContainerEnder;
 import crazypants.enderio.ModObject;
+import crazypants.enderio.conduit.item.ProcessingPlan;
+import crazypants.enderio.conduit.item.ProcessingPlan.Mode;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
 
-
+  private List<PatternSlot> grid = new ArrayList<PatternSlot>();
+  private PatternSlot craftingOutput;
+  private List<PatternSlot> processingOutput = new ArrayList<PatternSlot>();
 
   public ContainerPlanTable(EntityPlayer player, InventoryPlayer playerInv, TilePlanTable te) {
     super(playerInv, te);
@@ -44,13 +50,17 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
   }
 
   public void createGhostSlots(final List<GhostSlot> slots) {
+    grid.clear();
+    processingOutput.clear();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
         int index = i * 3 + j;
         int x = 17 + j * 18;
         int y = 16 + i * 18;
-        slots.add(new PatternSlot(getInv(), index, x, y));
+        PatternSlot slot = new PatternSlot(getInv(), index, x, y);
+        grid.add(slot);
+        slots.add(slot);
       }
     }
 
@@ -58,12 +68,25 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
       int index = 9 + i;
       int x = 80 + i * 18;
       int y = 34;
-      slots.add(new PatternSlot(getInv(), index, x, y).setStackable(true));
+      PatternSlot slot = new PatternSlot(getInv(), index, x, y).setStackable(true).setVisible(false);
+      processingOutput.add(slot);
+      slots.add(slot);
     }
 
-    slots.add(new PatternSlot(getInv(), ProcessingPlanGrid.OUTPUT_INDEX, 98, 34).setPlayerSettable(false).setVisible(false));
+    slots.add(craftingOutput = new PatternSlot(getInv(), ProcessingPlanGrid.OUTPUT_INDEX, 98, 34)
+        .setPlayerSettable(false).setStackable(true));
 
     slots.add(new GhostBackgroundItemSlot(ModObject.itemProcessingPlan.getItem(), inventorySlots.get(0)));
+  }
+
+  public void setMode(boolean processing) {
+    for (PatternSlot slot : grid) {
+      slot.setStackable(processing);
+    }
+    for (PatternSlot slot : processingOutput) {
+      slot.setVisible(processing);
+    }
+    craftingOutput.setVisible(!processing);
   }
 
   @Override
@@ -112,14 +135,12 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
       this.x = x;
       this.y = y;
       this.updateServer = true;
+      this.stackSizeLimit = 64;
     }
 
     @Override
     public ItemStack getStack() {
       ItemStack stack = grid.getStackInSlot(slot);
-      if (stack != null) {
-        stack.stackSize = 0;
-      }
       return stack;
     }
 
@@ -128,9 +149,6 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
       if (playerSettable) {
         if (stack != null) {
           stack = stack.copy();
-          if (!stackable) {
-            stack.stackSize = 0;
-          }
         }
         this.grid.setInventorySlotContents(slot, stack);
         super.putStack(stack);
@@ -144,11 +162,7 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
 
     public PatternSlot setStackable(boolean stackable) {
       this.stackable = stackable;
-      if (!stackable && grid.getStackInSlot(slot) != null) {
-        ItemStack stack = grid.getStackInSlot(slot);
-        stack.stackSize = 0;
-        grid.setInventorySlotContents(slot, stack);
-      }
+      this.displayStdOverlay = stackable;
       return this;
     }
 

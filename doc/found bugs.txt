@@ -1,5 +1,7 @@
 Conduit connectors show missing texture in waila
 Opening survival inventory on telepad after unsuccessful teleport glitches out (wrong x-offset)
 Inventory storage system always show as tiny in waila
+Darksteel Anvil always shows very damaged in waila
 rightclicking an item conduit writes the names of connecting inventories wrong
 enchanter: crossed arrow is misplaced
+portable inventory panel should not take up that much screen when in hand

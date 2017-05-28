@@ -33,10 +33,7 @@ public class ItemAlloy extends Item implements IHaveRenderers {
     setUnlocalizedName(ModObject.itemAlloy.getUnlocalisedName());
     setRegistryName(ModObject.itemAlloy.getUnlocalisedName());
 
-    numItems = Alloy.values().length;
-    if (useNuggets) {
-      numItems = numItems * 2;
-    }
+    numItems = useNuggets ? Alloy.values().length * 2 : Alloy.values().length;
   }
 
   private void init() {

@@ -4,6 +4,7 @@ import com.enderio.core.client.gui.button.IconButton;
 import com.enderio.core.client.gui.button.MultiIconButton;
 import com.enderio.core.client.gui.button.ToggleButton;
 import crazypants.enderio.EnderIO;
+import crazypants.enderio.ModObject;
 import crazypants.enderio.gui.GuiContainerBaseEIO;
 import crazypants.enderio.gui.IconEIO;
 import net.minecraft.client.Minecraft;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
@@ -24,10 +26,12 @@ public class GuiPlanTable extends GuiContainerBaseEIO {
   private final ToggleButton modeB;
   private final IconButton imprintB;
 
+  private ContainerPlanTable container;
 
   public GuiPlanTable(EntityPlayer player, InventoryPlayer inventory, TilePlanTable te) {
     super(new ContainerPlanTable(player, inventory, te), "plantable");
 
+    container = (ContainerPlanTable) this.inventorySlots;
 
     int x = getGuiLeft() + 98;
     int y = getGuiTop() + 12;
@@ -49,13 +53,17 @@ public class GuiPlanTable extends GuiContainerBaseEIO {
     modeB.onGuiInit();
     imprintB.onGuiInit();
 
-    ((ContainerPlanTable) inventorySlots).createGhostSlots(getGhostSlots());
+    container.createGhostSlots(getGhostSlots());
   }
 
   @Override
   protected void actionPerformed(GuiButton button) throws IOException {
     switch (button.id) {
       case ID_MODE_B:
+        container.setMode(modeB.isSelected());
+        break;
+      case ID_IMPRINT_B:
+        container.getInv().createPlan(modeB.isSelected());
         break;
     }
     super.actionPerformed(button);

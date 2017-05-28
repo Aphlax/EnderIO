@@ -2,7 +2,6 @@ package crazypants.enderio.conduit.gui.item;
 
 import com.enderio.core.client.gui.button.ToggleButton;
 import crazypants.enderio.EnderIO;
-import crazypants.enderio.conduit.item.ProcessingPlan;
 import crazypants.enderio.gui.GuiContainerBaseEIO;
 import crazypants.enderio.gui.IconEIO;
 import net.minecraft.client.gui.GuiButton;

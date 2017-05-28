@@ -24,10 +24,20 @@ XML editor will display that as tooltips when editing this file.
     <crafting>
       <grid size="3x3">
         <item name="CONDUIT_BINDER" /><item name="SILICON" /><item name="CONDUIT_BINDER" />
-        <item name="SILICON" /><item name="SENTIENT_ENDER" /><item name="SILICON" />
+        <item name="SILICON" /><item name="ENDER_RESONATOR" /><item name="SILICON" />
         <item name="CONDUIT_BINDER" /><item name="ELECTRICAL_STEEL" /><item name="CONDUIT_BINDER" />
       </grid>
       <output name="enderio:itemFunctionUpgrade:1" />
+    </crafting>
+  </recipe>
+  <recipe name="Processing Plan" required="true">
+    <crafting>
+      <grid size="3x3">
+        <item name="ingotIron" /><item name="ingotIron" /><item name="ingotIron" />
+        <item name="ELECTRICAL_STEEL" /><item name="ZOMBIE_CONTROLLER" /><item name="ELECTRICAL_STEEL" />
+        <item name="ELECTRICAL_STEEL" /><item name="minecraft:hopper" /><item name="ELECTRICAL_STEEL" />
+      </grid>
+      <output name="enderio:itemProcessingPlan" />
     </crafting>
   </recipe>
 

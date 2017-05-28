@@ -22,7 +22,7 @@ public class ProcessingPlanGrid implements IInventory {
   public static final int OUTPUT_INDEX = 12;
 
   @Store
-  ItemStack[] inv = new ItemStack[OUTPUT_INDEX];
+  private ItemStack[] inv = new ItemStack[OUTPUT_INDEX];
 
   private TilePlanTable te;
 
@@ -30,7 +30,7 @@ public class ProcessingPlanGrid implements IInventory {
     this.te = te;
   }
 
-  public ItemStack getCraftingOutput() {
+  private ItemStack getCraftingOutput() {
     InventoryCrafting crafting = new InventoryCrafting(new Container() {
       @Override
       public boolean canInteractWith(EntityPlayer playerIn) {
@@ -96,6 +96,7 @@ public class ProcessingPlanGrid implements IInventory {
   public ItemStack removeStackFromSlot(int index) {
     ItemStack res = getStackInSlot(index);
     setInventorySlotContents(index, null);
+    res.stackSize = 0;
     return res;
   }
 

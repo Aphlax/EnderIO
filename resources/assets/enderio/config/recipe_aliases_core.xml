@@ -24,6 +24,8 @@ XML editor will display that as tooltips when editing this file.
   <alias name="ENDER_RESONATOR" item="enderio:itemFrankenSkull:3" />
   <alias name="SENTIENT_ENDER" item="enderio:itemFrankenSkull:4" />
   <alias name="SKELETAL_CONTRACTOR" item="enderio:itemFrankenSkull:5" />
+  <alias name="MANAGEMENT_CORE" item="enderio:itemFrankenSkull:6" />
+  <alias name="PROFESSOR" item="enderio:itemFrankenSkull:7" />
 
   <alias name="CAPACITOR1" item="enderio:itemBasicCapacitor:0" />
   <alias name="CAPACITOR2" item="enderio:itemBasicCapacitor:1" />

@@ -2,6 +2,7 @@ package crazypants.enderio.machine.plantable;
 
 import com.enderio.core.common.util.Util;
 import crazypants.enderio.ModObject;
+import crazypants.enderio.conduit.item.ProcessingPlan;
 import crazypants.enderio.machine.AbstractMachineEntity;
 import crazypants.enderio.machine.IoMode;
 import info.loenwind.autosave.annotations.Storable;
@@ -9,9 +10,13 @@ import info.loenwind.autosave.annotations.Store;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -71,6 +76,61 @@ public class TilePlanTable extends AbstractMachineEntity implements ISidedInvent
     for(int i=0;i<inv.length;++i) {
       inv[i] = null;
     }
+  }
+
+
+  public void createPlan(boolean mode) {
+    if (hasValidRecipe(mode) && hasValidInputOutput()) {
+      NBTTagCompound nbt = new NBTTagCompound();
+      ProcessingPlan plan = ProcessingPlan.fromGrid(grid,
+          mode ? ProcessingPlan.Mode.PROCESSING : ProcessingPlan.Mode.CRAFTING);
+      plan.writeToNBT(nbt);
+      ItemStack input = getStackInSlot(0);
+      ItemStack output = input.copy();
+      input.stackSize--;
+      output.stackSize = 1;
+      output.setTagCompound(nbt);
+      setInventorySlotContents(1, output);
+      grid.clear();
+      markDirty();
+    }
+  }
+
+  private boolean hasValidInputOutput() {
+    ItemStack input = getStackInSlot(0);
+    ItemStack output = getStackInSlot(1);
+    return input != null && input.getItem() == ModObject.itemProcessingPlan.getItem() && input.stackSize >= 1 &&
+        output == null;
+  }
+
+  private boolean hasValidRecipe(boolean mode) {
+    if (mode) {
+      for (int i = 9; i < ProcessingPlanGrid.OUTPUT_INDEX; i++) {
+        if (grid.getStackInSlot(i) != null) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return grid.getStackInSlot(ProcessingPlanGrid.OUTPUT_INDEX) != null;
+    }
+  }
+
+  @Override
+  public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+      return true;
+    }
+    return super.hasCapability(capability, facing);
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+    if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+      return (T) this;
+    }
+    return super.getCapability(capability, facing);
   }
 
   @Override

@@ -10,6 +10,19 @@
 <SliceAndSpliceRecipes>
 
   <recipeGroup name="EnderIO" >
+    <recipe name="Management Core" energyCost="200000" >
+      <input>
+        <itemStack modID="EnderIO" itemName="itemAlloy" itemMeta="2" slot="0" />
+        <itemStack modID="minecraft" itemName="nether_star" slot="1" />
+        <itemStack modID="EnderIO" itemName="itemAlloy" itemMeta="2" slot="2" />
+        <itemStack oreDictionary="itemSilicon" slot="3" />
+        <itemStack modID="EnderIO" itemName="itemAlloy" itemMeta="7" slot="4" />
+        <itemStack oreDictionary="itemSilicon" slot="5" />
+      </input>
+      <output>
+        <itemStack modID="EnderIO" itemName="itemFrankenSkull" itemMeta="6" />
+      </output>
+    </recipe>
     <recipe name="Electrode Skull" energyCost="20000" >
       <input>
         <itemStack modID="EnderIO" itemName="itemAlloy" itemMeta="1" slot="0" />
