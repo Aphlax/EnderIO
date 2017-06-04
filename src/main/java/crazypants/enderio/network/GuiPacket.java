@@ -3,6 +3,7 @@ package crazypants.enderio.network;
 import crazypants.enderio.Log;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.inventory.Container;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -58,28 +59,41 @@ public class GuiPacket implements IMessage {
     p.send();
   }
 
+  public static void send(IRemoteExec gui, int msgID, boolean mode, NBTTagCompound nbt) {
+    GuiPacket p = new GuiPacket(gui, msgID, 3, new int[] { mode ? 1 : 0 }, null, null, nbt);
+    p.send();
+  }
+
   // ------------------------------------------------------------------
 
   private static enum DataType {
     INT,
     LONG,
-    STRING;
+    STRING,
+    NBT;
   }
 
-  private static final DataType[][] PATTERN = { {}, { DataType.INT }, { DataType.STRING } };
+  private static final DataType[][] PATTERN = { {}, { DataType.INT }, { DataType.STRING },
+      { DataType.INT, DataType.NBT } };
 
   private int guiID, msgID, pattern;
   private int[] ints;
   private long[] longs;
   private String[] strings;
+  private NBTTagCompound nbt;
 
-  private GuiPacket(IRemoteExec gui, int msgID, int pattern, int[] ints, long[] longs, String[] strings) {
+  private GuiPacket(IRemoteExec gui, int msgID, int pattern, int[] ints, long[] longs, String[] strings, NBTTagCompound nbt) {
     this.guiID = gui.getGuiID();
     this.msgID = msgID;
     this.pattern = pattern;
     this.ints = ints;
     this.longs = longs;
     this.strings = strings;
+    this.nbt = nbt;
+  }
+
+  private GuiPacket(IRemoteExec gui, int msgID, int pattern, int[] ints, long[] longs, String[] strings) {
+    this(gui, msgID, pattern, ints, longs, null, null);
   }
 
   private GuiPacket(IRemoteExec gui, int msgID, int pattern, int[] ints, long[] longs) {
@@ -101,19 +115,22 @@ public class GuiPacket implements IMessage {
     int idx = 0;
     for (DataType dt : PATTERN[pattern]) {
       switch (dt) {
-      case INT:
-        buf.writeInt(ints[idx++]);
-        break;
-      case LONG:
-        buf.writeLong(longs[idx++]);
-        break;
-      case STRING:
-        buf.writeBoolean(strings[idx] != null);
-        if (strings[idx] != null) {
-          ByteBufUtils.writeUTF8String(buf, strings[idx]);
-        }
-        idx++;
-        break;
+        case INT:
+          buf.writeInt(ints[idx++]);
+          break;
+        case LONG:
+          buf.writeLong(longs[idx++]);
+          break;
+        case STRING:
+          buf.writeBoolean(strings[idx] != null);
+          if (strings[idx] != null) {
+            ByteBufUtils.writeUTF8String(buf, strings[idx]);
+          }
+          idx++;
+          break;
+        case NBT:
+          ByteBufUtils.writeTag(buf, nbt);
+          break;
       }
     }
   }
@@ -130,24 +147,27 @@ public class GuiPacket implements IMessage {
     int idx = 0;
     for (DataType dt : PATTERN[pattern]) {
       switch (dt) {
-      case INT:
-        if (ints == null)
-          ints = new int[PATTERN[pattern].length];
-        ints[idx++] = buf.readInt();
-        break;
-      case LONG:
-        if (longs == null)
-          longs = new long[PATTERN[pattern].length];
-        longs[idx++] = buf.readLong();
-        break;
-      case STRING:
-        if (strings == null)
-          strings = new String[PATTERN[pattern].length];
-        if (buf.readBoolean()) {
-          strings[idx] = ByteBufUtils.readUTF8String(buf);
-        }
-        idx++;
-        break;
+        case INT:
+          if (ints == null)
+            ints = new int[PATTERN[pattern].length];
+          ints[idx++] = buf.readInt();
+          break;
+        case LONG:
+          if (longs == null)
+            longs = new long[PATTERN[pattern].length];
+          longs[idx++] = buf.readLong();
+          break;
+        case STRING:
+          if (strings == null)
+            strings = new String[PATTERN[pattern].length];
+          if (buf.readBoolean()) {
+            strings[idx] = ByteBufUtils.readUTF8String(buf);
+          }
+          idx++;
+          break;
+        case NBT:
+          nbt = ByteBufUtils.readTag(buf);
+          break;
       }
     }
   }
@@ -217,4 +237,7 @@ public class GuiPacket implements IMessage {
     return checkAccess(idx, DataType.STRING) ? strings[idx] : null;
   }
 
+  public NBTTagCompound getNbt() {
+    return nbt;
+  }
 }

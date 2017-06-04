@@ -79,12 +79,14 @@ public class TilePlanTable extends AbstractMachineEntity implements ISidedInvent
   }
 
 
-  public void createPlan(boolean mode) {
-    if (hasValidRecipe(mode) && hasValidInputOutput()) {
-      NBTTagCompound nbt = new NBTTagCompound();
-      ProcessingPlan plan = ProcessingPlan.fromGrid(grid,
-          mode ? ProcessingPlan.Mode.PROCESSING : ProcessingPlan.Mode.CRAFTING);
-      plan.writeToNBT(nbt);
+  public boolean createPlan(boolean mode, NBTTagCompound nbt) {
+    if ((hasValidRecipe(mode) || nbt != null) && hasValidInputOutput()) {
+      if (nbt == null) {
+        nbt = new NBTTagCompound();
+        ProcessingPlan plan = ProcessingPlan.fromGrid(grid,
+            mode ? ProcessingPlan.Mode.PROCESSING : ProcessingPlan.Mode.CRAFTING);
+        plan.writeToNBT(nbt);
+      }
       ItemStack input = getStackInSlot(0);
       ItemStack output = input.copy();
       input.stackSize--;
@@ -93,7 +95,9 @@ public class TilePlanTable extends AbstractMachineEntity implements ISidedInvent
       setInventorySlotContents(1, output);
       grid.clear();
       markDirty();
+      return true;
     }
+    return false;
   }
 
   private boolean hasValidInputOutput() {

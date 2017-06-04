@@ -5,8 +5,11 @@ import com.enderio.core.client.gui.button.MultiIconButton;
 import com.enderio.core.client.gui.button.ToggleButton;
 import crazypants.enderio.EnderIO;
 import crazypants.enderio.ModObject;
+import crazypants.enderio.conduit.item.ProcessingPlan;
 import crazypants.enderio.gui.GuiContainerBaseEIO;
 import crazypants.enderio.gui.IconEIO;
+import crazypants.enderio.network.GuiPacket;
+import crazypants.enderio.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -14,11 +17,14 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 
 public class GuiPlanTable extends GuiContainerBaseEIO {
+
+  public static final int GUI_MSG_ID = 9988;
 
   private static final int ID_MODE_B = 10;
   private static final int ID_IMPRINT_B = 11;
@@ -63,7 +69,11 @@ public class GuiPlanTable extends GuiContainerBaseEIO {
         container.setMode(modeB.isSelected());
         break;
       case ID_IMPRINT_B:
-        container.getInv().createPlan(modeB.isSelected());
+        NBTTagCompound nbt = ProcessingPlan.fromGrid(container.getInv().grid,
+            ProcessingPlan.Mode.from(modeB.isSelected())).toNBT();
+        if (container.getInv().createPlan(modeB.isSelected(), null)) {
+          GuiPacket.send(this, GUI_MSG_ID, modeB.isSelected(), nbt);
+        }
         break;
     }
     super.actionPerformed(button);

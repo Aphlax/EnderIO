@@ -6,6 +6,8 @@ import com.enderio.core.common.ContainerEnder;
 import crazypants.enderio.ModObject;
 import crazypants.enderio.conduit.item.ProcessingPlan;
 import crazypants.enderio.conduit.item.ProcessingPlan.Mode;
+import crazypants.enderio.network.GuiPacket;
+import crazypants.enderio.network.IRemoteExec;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
@@ -16,11 +18,15 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
+import static crazypants.enderio.machine.plantable.GuiPlanTable.GUI_MSG_ID;
+
+public class ContainerPlanTable extends ContainerEnder<TilePlanTable> implements IRemoteExec.IContainer {
 
   private List<PatternSlot> grid = new ArrayList<PatternSlot>();
   private PatternSlot craftingOutput;
   private List<PatternSlot> processingOutput = new ArrayList<PatternSlot>();
+
+  private int guiId = -1;
 
   public ContainerPlanTable(EntityPlayer player, InventoryPlayer playerInv, TilePlanTable te) {
     super(playerInv, te);
@@ -120,6 +126,27 @@ public class ContainerPlanTable extends ContainerEnder<TilePlanTable> {
       slot.onPickupFromSlot(par1EntityPlayer, origStack);
     }
     return copyStack;
+  }
+
+  @Override
+  public void networkExec(int id, GuiPacket message) {
+    switch (id) {
+      case GUI_MSG_ID:
+        getInv().createPlan(message.getBoolean(0), message.getNbt());
+        break;
+      default:
+        break;
+    }
+  }
+
+  @Override
+  public void setGuiID(int id) {
+    guiId = id;
+  }
+
+  @Override
+  public int getGuiID() {
+    return guiId;
   }
 
   private class PatternSlot extends GhostSlot {

@@ -97,7 +97,7 @@ public class ProcessingPlan {
   }
 
   public void readFromNBT(NBTTagCompound nbt) {
-    mode = Mode.fromId(nbt.getInteger("mode"));
+    mode = Mode.from(nbt.getInteger("mode"));
 
     {
       inputs.clear();
@@ -141,6 +141,12 @@ public class ProcessingPlan {
         }
       }
     }
+  }
+
+  public NBTTagCompound toNBT() {
+    NBTTagCompound nbt = new NBTTagCompound();
+    this.writeToNBT(nbt);
+    return nbt;
   }
 
   private static void addItemToIngredientList(List<ItemStack> list, ItemStack item) {
@@ -196,8 +202,11 @@ public class ProcessingPlan {
     public int getId() {
       return id;
     }
-    public static Mode fromId(int id) {
+    public static Mode from(int id) {
       return id >= 0 && id < values().length ? values()[id] : CRAFTING;
+    }
+    public static Mode from(boolean processing) {
+      return processing ? PROCESSING : CRAFTING;
     }
   }
 }
